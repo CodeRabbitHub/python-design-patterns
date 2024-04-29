@@ -1,19 +1,22 @@
-class MonostateSingleton:
-    _shared_state = {"value": None}
+class MonoStateSingleton:
+    __shared_state = {"value": None}
 
-    def __init__(self, value):
-        self.__dict__ = self._shared_state
-        if self.value is None:  # Check if value is not set yet
-            self.value = value
+    def __init__(self):
+        self.__dict__ = self.__shared_state
+
+    def set_value(self, value):
+        self.value = value
+
+    def get_value(self):
+        return self.value
 
 
-# Example usage:
-instance1 = MonostateSingleton(10)
-print("Instance 1 value:", instance1.value)  # Output: 10
+# Demo
+s1 = MonoStateSingleton()
+s2 = MonoStateSingleton()
 
-instance2 = MonostateSingleton(20)
-print("Instance 2 value:", instance2.value)  # Output: 20
+print(s1)
+print(s2)
 
-# Both instances share the same state
-print("Instance 1 value:", instance1.value)  # Output: 20
-print("Instance 2 value:", instance2.value)  # Output: 20
+s1.set_value(10)
+print("Value from s2:", s2.get_value())  # Output: 10

@@ -1,42 +1,22 @@
-class ClassRecord:
-    _shared_state = {"class_name": None, "class_teacher": None, "class_students": []}
+class Borg:
+    _shared_state = {}  # Class attribute to store shared state
 
-    def __init__(self, class_name, class_teacher):
-        self.__dict__ = self._shared_state
-        self.set_class_details(class_name, class_teacher)
+    def __init__(self):
+        self.__dict__ = (
+            self._shared_state
+        )  # Make instance attributes point to the shared state
 
-    def set_class_details(self, class_name, class_teacher):
-        self.class_name = class_name
-        self.class_teacher = class_teacher
-
-    def add_student(self, student_name):
-        self.class_students.append(student_name)
-
-    def get_class_details(self):
-        return {
-            "class_name": self.class_name,
-            "class_teacher": self.class_teacher,
-            "class_students": self.class_students,
-        }
+    def __str__(self):
+        return str(self._shared_state)
 
 
-class Classroom(ClassRecord):
-    def __init__(self, class_name, class_teacher):
-        super().__init__(class_name, class_teacher)
+# Example usage
+b1 = Borg()
+b1.x = 10
 
+b2 = Borg()
+print(b2)  # Output: {'x': 10}
 
-# Let's test our Classroom class
+b2.y = 20
 
-# Creating the first instance of Classroom
-class1 = Classroom("Grade 10", "Mr. Smith")
-class1.add_student("Alice")
-class1.add_student("Bob")
-
-print("Class 1 Details:", class1.get_class_details())
-
-# Trying to create another instance of Classroom
-# This should not create a new instance but return the existing one
-class2 = Classroom("Grade 11", "Ms. Johnson")
-class2.add_student("Charlie")
-
-print("Class 2 Details:", class2.get_class_details())  # Should be the same as class1
+print(b1)  # Output: {'x': 10, 'y': 20}
